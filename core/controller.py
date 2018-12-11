@@ -1,0 +1,3 @@
+
+class AnnotationsPageController:
+    pass
