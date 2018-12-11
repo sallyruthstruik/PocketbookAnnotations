@@ -21,7 +21,7 @@
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
             <button v-on:click="handleButtonAnnotations(props)">Annotations</button>
-            <button>Download as Markdown</button>
+            <button v-on:click="handleDownloadAnnotations(props.row)">Download annotations as Markdown</button>
           </span>
           <span v-else>
             {{props.formattedRow[props.column.field]}}
@@ -75,7 +75,11 @@ export default {
     handleButtonAnnotations(item){
       console.log("Annotations clicked!", item.row);
       this.$router.push({name: "annotations", query: {bookId: item.row.OID}})
-    }
+    },
+
+    handleDownloadAnnotations(row){
+      window.location = `${Config.host}/markdown/annotations?bookId=${row.OID}&tag=bm.quotation`
+    },
   },
 
 };

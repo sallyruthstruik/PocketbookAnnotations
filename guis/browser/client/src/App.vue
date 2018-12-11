@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <h1>{{$route.meta.title}}</h1>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+
+  created(){
+    console.log(this.$route)
+  },
 }
 </script>
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h5 v-if="$route.query.bookId">For book {{$route.query.bookId}}</h5>
     <vue-good-table
       :columns="columns"
       :rows="rows"
@@ -17,7 +18,16 @@
         ofLabel: 'of',
         pageLabel: 'page', // for 'pages' mode
         allLabel: 'All',
-      }"/>
+      }">
+      <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'actions'">
+            <button v-on:click="handleOpenBook(props.row)">Open book</button>
+          </span>
+          <span v-else>
+            {{props.formattedRow[props.column.field]}}
+          </span>
+        </template>
+    </vue-good-table>
   </div>
 </template>
 
@@ -34,9 +44,6 @@ export default {
           field: 'TagName',
         },
         {
-          label: 'Val',
-          field: 'Val',
-        },{
           label: 'Text',
           field: 'Text',
         },{
@@ -49,6 +56,9 @@ export default {
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: 'enter', //only trigger on enter not on keyup
           },
+        }, {
+          label: "Actions",
+          field: "actions",
         }
       ],
       rows: [
@@ -76,6 +86,12 @@ export default {
         console.log(bookTitles);
         this.columns[3].filterOptions.filterDropdownItems = bookTitles;
       })
-  }
+  },
+
+  methods: {
+    handleOpenBook(row){
+      axios.post(`${Config.host}/api/open_annotation`, {OID: row.OID})
+    },
+  },
 };
 </script>

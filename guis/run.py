@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import click
@@ -15,6 +16,7 @@ from guis._base import BaseGui
 @click.argument("ui_name")
 @click.argument("path")
 def main(ui_name, path):
+    logging.basicConfig(level="INFO")
     mod = importlib.import_module(f"guis.{ui_name}")
 
     data_extractor = DataExtractor.from_root(path)

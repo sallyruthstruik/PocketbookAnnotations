@@ -10,12 +10,18 @@ export default new Router({
     {
       path: '/',
       name: 'books',
-      component: Books
+      component: Books,
+      meta: {
+        title: "Books",
+      }
     },
     {
       path: '/annotations',
       name: 'annotations',
-      component: HelloWorld
+      component: HelloWorld,
+      meta: {
+        title: "Annotations",
+      }
     }
   ]
 })

@@ -29,7 +29,6 @@ class Annotation(BaseObject):
             self.Text = parsed.get("text", "").replace("-\n", "")
             self.Begin = parsed.get("begin", "")
             self.End = parsed.get("end", "")
-            print(self.Text)
         except:
             pass
 

@@ -16,3 +16,12 @@ class CustomEncoder(JSONEncoder):
         elif isinstance(o, bytes):
             return o.decode("utf8", errors="ignore")
         return super().default(o)
+
+
+def ends_with_slash(s):
+    if s[-1] != "/":
+        return s + "/"
+    return s
+
+def open_pdf():
+    pass

@@ -1,7 +1,8 @@
+import logging
 import multiprocessing
 import os
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_file
 from flask_cors import CORS
 
 from core.controller import AnnotationsPageController
@@ -14,8 +15,6 @@ app.static_folder = os.path.abspath("guis/browser/client/dist/static")
 app.static_url_path = "static"
 
 CORS(app)
-
-print(app.template_folder)
 
 controller = AnnotationsPageController()
 
@@ -37,6 +36,15 @@ def api_annotations():
     return jsonify(controller.annotations(**dictargs()))
 
 
+@app.route("/markdown/annotations")
+def markdown_annotations():
+    return send_file(
+        controller.annotations_as_markdown(**dictargs()),
+        as_attachment=True,
+        attachment_filename="annotations.md",
+
+    )
+
 @app.route("/api/books")
 def api_books():
     return jsonify(controller.books(**dictargs()))
@@ -47,6 +55,17 @@ def node_modules(filename):
     return app.send_static_file(filename)
 
 
+@app.route("/api/open_annotation", methods=["POST"])
+def open_anno():
+    OID = request.json["OID"]
+    controller.view_annotation(OID)
+    return "{}"
+
+
 class ServerProcess(multiprocessing.Process):
+    def __init__(self, port):
+        super().__init__()
+        self.port = port
+
     def run(self):
-        app.run("127.0.0.1", 5000, debug=True)
+        app.run("127.0.0.1", self.port, debug=False)

@@ -67,8 +67,8 @@ ORDER BY t.TimeEdt DESC
 
         return out
 
-    def get_tag(self):
-        pass
+    def get_tag(self, tag_id):
+        return next(filter(lambda item: item.OID == int(tag_id), self.get_tags()))
 
     @functools.lru_cache(maxsize=config.cache_size)
     def _get_items_parent_map(self)-> typing.Dict[int, int]:
@@ -128,7 +128,6 @@ FROM Files f JOIN Paths p ON f.PathID = p.OID WHERE BookID = ?
 
         return File(*c.fetchone())
 
-
 if __name__ == '__main__':
     de = DataExtractor.from_root("/home/skaledin/Dropbox/BACKUPS/PocketBook/")
 
@@ -138,7 +137,10 @@ if __name__ == '__main__':
 
     tag = next(filter(lambda i: i.OID == tagId, de.get_tags()))
 
-    book = de.get_book(tag.ItemId)
-    file = de.get_book_file(book.OID)
+    from core.controller import AnnotationsPageController
 
-    pprint(de._get_items_parent_map())
+    con = AnnotationsPageController()
+    con.data_extractor = de
+    con.view_annotation(tagId)
+
+
