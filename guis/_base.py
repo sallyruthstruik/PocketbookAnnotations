@@ -11,6 +11,9 @@ class BaseGui(metaclass=abc.ABCMeta):
 
         AnnotationsPageController.data_extractor = data_extractor
 
+        from guis.browser.server import controller
+        print(controller.data_extractor)
+
     @abc.abstractmethod
     def run(self):
         """

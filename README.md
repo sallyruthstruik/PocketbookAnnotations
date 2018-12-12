@@ -9,10 +9,13 @@ Current functionality:
 * Allows to view annotations by book and export them in one Markdown file
 * Tested on Ubuntu 16.04 with python 3.6+
 * Open PDF files on annotated page (Ubuntu based systems only)
+* Worked on Windows with some limitations:
+
+    * Opening PDF editor not allowed. Only viewing and downloading annotations
 
 Plans:
 
-* Port on Windows/MacOS systems
+* Port on MacOS systems
 * Desktop UI and executable bundle
 * Mark annotations as processed and don't show them (save state on the disk)
 

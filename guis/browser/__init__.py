@@ -23,7 +23,7 @@ class Gui(BaseGui):
             return
 
         logging.info("Start server on port %s", port)
-        pr = ServerProcess(port)
+        pr = ServerProcess(port, self.data_extractor.path)
         pr.start()
 
         webbrowser.open(f"http://localhost:{port}")

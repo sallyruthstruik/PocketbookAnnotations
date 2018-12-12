@@ -1,11 +1,13 @@
 import logging
 import multiprocessing
 import os
+import threading
 
 from flask import Flask, jsonify, request, render_template, send_file
 from flask_cors import CORS
 
 from core.controller import AnnotationsPageController
+from core.data_extractor import DataExtractor
 from core.utils import CustomEncoder
 
 app = Flask(__name__)
@@ -17,7 +19,6 @@ app.static_url_path = "static"
 CORS(app)
 
 controller = AnnotationsPageController()
-
 
 def dictargs():
     return {
@@ -63,9 +64,11 @@ def open_anno():
 
 
 class ServerProcess(multiprocessing.Process):
-    def __init__(self, port):
+    def __init__(self, port, path):
         super().__init__()
         self.port = port
+        self.data_extractor_path = path
 
     def run(self):
+        controller.data_extractor = DataExtractor.from_root(self.data_extractor_path)
         app.run("127.0.0.1", self.port, debug=False)
