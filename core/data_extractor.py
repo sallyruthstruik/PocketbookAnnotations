@@ -39,11 +39,13 @@ class DataExtractor:
 
         return _threadlocal.cursor
 
-    @functools.lru_cache(maxsize=config.cache_size)
-    def get_tags(self)-> typing.List[Annotation]:
+    def get_tags(self) -> typing.List[Annotation]:
         d = self.cursor.execute("""
 SELECT t.*, tn.*
-FROM  Tags t JOIN TagNames tn ON t.TagID = tn.OID
+FROM  Tags t 
+    JOIN TagNames tn ON t.TagID = tn.OID
+    JOIN Items it ON t.ItemID = it.OID
+WHERE it.State = 0
 ORDER BY t.TimeEdt DESC
         """)
 

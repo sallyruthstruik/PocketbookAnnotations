@@ -10,7 +10,7 @@
         position: 'top',
         perPageDropdown: [3, 7, 9],
         dropdownAllowAll: false,
-        setCurrentPage: 2,
+        setCurrentPage: 1,
         nextLabel: 'next',
         prevLabel: 'prev',
         rowsPerPageLabel: 'Rows per page',
@@ -42,6 +42,7 @@ export default {
         {
           label: 'OID',
           field: 'OID',
+          type: 'number',
         },
         {
           label: 'Title',
@@ -52,10 +53,11 @@ export default {
         },{
           label: 'Annotations Count',
           field: 'AnnotationsCount',
+          type: 'number',
         }, {
           label: 'Actions',
           field: 'actions',
-        }
+        },
       ],
       rows: [
 
@@ -67,7 +69,7 @@ export default {
     axios.get(`${Config.host}/api/books`)
       .then(response=>{
         console.log(response.data);
-        this.rows= response.data;
+        this.rows = response.data;
       })
   },
 
