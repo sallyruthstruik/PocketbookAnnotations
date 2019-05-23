@@ -11,5 +11,5 @@ class Storage:
     def __del__(self):
         self.sh.close()
 
-    def get_processed_annotations(self)-> typing.Set[int]:
+    def get_processed_annotations(self) -> typing.Set[int]:
         return set(self.sh.get(self.KEY_PROCESSED_ANNOTATIONS, []))
