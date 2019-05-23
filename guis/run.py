@@ -7,8 +7,6 @@ import importlib
 sys.path.append(os.path.abspath(os.path.curdir))
 
 from core.data_extractor import DataExtractor
-
-
 from guis._base import BaseGui
 
 
