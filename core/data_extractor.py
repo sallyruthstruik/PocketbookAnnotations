@@ -25,7 +25,9 @@ class DataExtractor:
         self.db_path = os.path.join(
             self.path, "system", "config", "books.db"
         )
+        self._try_open_db()
 
+    def _try_open_db(self):
         try:
             self._cursor = sqlite3.connect(self.db_path)
         except:

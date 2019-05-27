@@ -2,6 +2,7 @@ import logging
 import multiprocessing
 import os
 import threading
+from pathlib import Path
 
 from flask import Flask, jsonify, request, render_template, send_file
 from flask_cors import CORS
@@ -10,15 +11,18 @@ from core.controller import AnnotationsPageController
 from core.data_extractor import DataExtractor
 from core.utils import CustomEncoder
 
+current_dir = Path(__file__).parent
+
 app = Flask(__name__)
 app.json_encoder = CustomEncoder
-app.template_folder = os.path.abspath("guis/browser/client")
-app.static_folder = os.path.abspath("guis/browser/client/dist/static")
+app.template_folder = os.path.abspath(current_dir/"client")
+app.static_folder = os.path.abspath(current_dir/"client/dist/static")
 app.static_url_path = "static"
 
 CORS(app)
 
 controller = AnnotationsPageController()
+
 
 def dictargs():
     return {
@@ -45,6 +49,7 @@ def markdown_annotations():
         attachment_filename="annotations.md",
 
     )
+
 
 @app.route("/api/books")
 def api_books():
